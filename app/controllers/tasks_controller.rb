@@ -28,6 +28,11 @@ class TasksController < ApplicationController
   end
 
   def start_timer
+    @task.update(started_at: Time.now) unless @task.started_at
+    render json: @task
+  end
+
+  def stop_timer
     if @task.started_at
       elapsed_time = (Time.now - @task.started_at).to_i
       @task.update(time_spent: @task.time_spent.to_i + elapsed_time, started_at: nil)
